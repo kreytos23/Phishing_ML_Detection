@@ -17,14 +17,14 @@ class EmailParser:
     urlRegex = r'https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=;]*)'
     emailRegex = r'([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)'
 
-# Constructor del método
+# Constructor del método main
     def __init__(self, email):
         self.email = email
         self.__extract_email_parts()
 
 #This method iterates over the parts of the email message using the walk() method.
 #It checks the content type of each part and based on that,
-#extracts the text, HTML content, and counts the number of attachments.
+#extracts the text, HTML content, and counts the number of attachments. 
 
     def __extract_email_parts(self):
         no_of_attachments = 0
