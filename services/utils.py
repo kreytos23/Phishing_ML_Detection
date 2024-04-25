@@ -1,15 +1,11 @@
 import re
-import os
 import nltk
 import string
-import mailbox
-import pandas as pd
 from bs4 import BeautifulSoup
 from collections import Counter
 from nltk.corpus import stopwords
 from email.header import decode_header
 from nltk.tokenize import word_tokenize
-from joblib import dump
 
 # Clase EmailParser se utiliza para extraer las características de los correos que se pasen por parámetros, características como URLs, No. de Datos adjuntos
 # contenido HTML y contenido en texto plano
