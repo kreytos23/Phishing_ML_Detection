@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, Response
 from services.predictFile import MboxProcessor
 import os
 
@@ -29,7 +29,10 @@ def upload_mbox():
     file.save(temp_path)
     mboxProcessor = MboxProcessor(temp_path)
     results = mboxProcessor.predict_mail()
-    return results, 200
+    response = Response(response=results,
+                        status=200,
+                        mimetype='application/json')
+    return response
   else:
     return "Unsupported file type", 400
 
