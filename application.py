@@ -9,7 +9,7 @@ app = Flask(__name__)
 def hola_mundo():
   return 'Hola Mundo!'
 
-'''
+
 @app.route('/upload-mbox', methods=['POST'])
 def upload_mbox():
   # Verificar si la petición tiene el archivo parte
@@ -32,7 +32,7 @@ def upload_mbox():
     return results, 200
   else:
     return "Unsupported file type", 400
-'''
+
 
 if __name__ == '__main__':
   app.run(debug=True)
