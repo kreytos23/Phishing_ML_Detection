@@ -4,7 +4,7 @@ import os
 
 app = Flask(__name__)
 
-
+#Hello World en la raíz de la aplicación
 @app.route('/')
 def hola_mundo():
   return 'Hola Mundo!'
