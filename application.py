@@ -1,11 +1,13 @@
 from flask import Flask, request, Response
 from services.predictFile import MboxProcessor
+from flask_cors import cross_origin
 import os
 
 app = Flask(__name__)
 
 #Hello World en la raíz de la aplicación
 @app.route('/')
+@cross_origin(origins="*")
 def hola_mundo():
   return 'Hola Mundo!'
 
