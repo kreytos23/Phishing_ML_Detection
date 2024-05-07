@@ -13,6 +13,7 @@ def hola_mundo():
 
 
 @app.route('/upload-mbox', methods=['POST'])
+@cross_origin(origins="*")
 def upload_mbox():
   # Verificar si la petición tiene el archivo parte
   if 'mbox_file' not in request.files:
