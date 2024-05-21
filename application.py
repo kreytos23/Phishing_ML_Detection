@@ -24,7 +24,9 @@ def upload_mbox():
   # Si el usuario no selecciona un archivo, el navegador
   # también puede enviar una parte vacía sin nombre de archivo
   if file.filename == '':
-    return "No selected file", 400
+    response = Response(response="No file in request",
+                        status=400)
+    return response
 
   if file and file.filename.endswith('.mbox'):
     # Guardar el archivo temporalmente en disco
