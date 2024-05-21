@@ -73,11 +73,14 @@ class MboxProcessor:
       noAttach = df["no_of_attachments"].values
       dfAnswer = pd.DataFrame({'Sender Address': address, 'NoOfURL': noLinks, 'NoAttachments': noAttach , "Results": y_Prueba1})
       json_resultado = dfAnswer.to_json(orient='index')
-      print(json_resultado)
+      
+      # Convertir el diccionario a una lista de objetos
+      results_list = [value for key, value in json_resultado.items()]
+      json_response = json.dumps(results_list)
+      print(json_response)
 
       os.remove(self.archivo_mbox)
     except Exception as e:
       raise e
-    
     
     return json_resultado
