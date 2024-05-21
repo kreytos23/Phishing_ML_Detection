@@ -32,8 +32,13 @@ def upload_mbox():
     # Guardar el archivo temporalmente en disco
     temp_path = os.path.join('temp', file.filename)
     file.save(temp_path)
-    mboxProcessor = MboxProcessor(temp_path)
-    results = mboxProcessor.predict_mail()
+    try:
+      mboxProcessor = MboxProcessor(temp_path)
+      results = mboxProcessor.predict_mail()
+    except Exception as e:
+      response = Response(response=str(e),
+                          status=500)
+      return response
     response = Response(response=results,
                         status=200,
                         mimetype='application/json')
