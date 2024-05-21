@@ -37,7 +37,7 @@ def upload_mbox():
       results = mboxProcessor.predict_mail()
     except Exception as e:
       response = Response(response='Error processing file: ' + str(e),
-                          status=500)
+                          status=400)
       return response
     response = Response(response=results,
                         status=200,

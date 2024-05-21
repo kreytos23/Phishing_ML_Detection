@@ -78,10 +78,8 @@ class MboxProcessor:
           "TotalEmails": len(data_list),
           "Predictions": data_list
       }
-
       final_json = json.dumps(result, indent=4)
       os.remove(self.archivo_mbox)
     except Exception as e:
       raise e
-    
     return final_json
