@@ -25,7 +25,11 @@ class MboxProcessor:
         palabra, frecuencia = fila[0], int(fila[1])
         malicious_words.append((palabra, frecuencia))
     # Mostrar la lista de tuplas
-    test_emails = mailbox.mbox(self.archivo_mbox)
+    try:
+      test_emails = mailbox.mbox(self.archivo_mbox)
+    except Exception as e:
+      raise e
+    
     dominios_permitidos = [".ipn", ".edu", ".unam"]
     nltk.download('punkt')
     df = pd.DataFrame(columns=[

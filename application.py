@@ -37,7 +37,10 @@ def upload_mbox():
                         mimetype='application/json')
     return response
   else:
-    return "Unsupported file type", 400
+    response = Response(response="Unsupported file type",
+                        status=400)
+    return response  
+
 
 
 if __name__ == '__main__':
