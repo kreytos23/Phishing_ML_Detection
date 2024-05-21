@@ -5,6 +5,7 @@ import csv
 import nltk
 import pandas as pd
 import os
+import json
 
 
 class MboxProcessor:
@@ -72,10 +73,15 @@ class MboxProcessor:
       noLinks = df["noOfUrls"].values
       noAttach = df["no_of_attachments"].values
       dfAnswer = pd.DataFrame({'Sender Address': address, 'NoOfURL': noLinks, 'NoAttachments': noAttach , "Results": y_Prueba1})
-      json_resultado = dfAnswer.to_json(orient='records')
- 
+      data_list = json.loads(dfAnswer.to_json(orient='records'))
+      result = {
+          "TotalEmails": len(data_list),
+          "Predictions": data_list
+      }
+
+      final_json = json.dumps(result, indent=4)
       os.remove(self.archivo_mbox)
     except Exception as e:
       raise e
     
-    return json_resultado
+    return final_json
