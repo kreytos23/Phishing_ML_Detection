@@ -41,23 +41,26 @@ class MboxProcessor:
       stringUtil = StringUtil()
       numInvalidAddr = 0
       for email in test_emails:
-        emailParser = EmailParser(email)
-        receiverAddr = emailParser.get_receiver_email_address()
-        #if any(dominio in receiverAddr for dominio in dominios_permitidos):
-        no_of_attachments = emailParser.get_no_of_attachments()
-        emailid_features = stringUtil.process_email_address(
-            emailParser.get_sender_email_address())
-        urls_features = stringUtil.process_urls(emailParser.get_urls())
-        word_dict = stringUtil.process_text(emailParser.get_email_text())
-        senderAddr = emailParser.get_sender_email_address()
-        df.loc[len(df)] = [
-            word_dict, emailid_features[0], emailid_features[1],
-            emailid_features[2], emailid_features[3], emailid_features[4],
-            emailid_features[5], urls_features[0], urls_features[1],
-            urls_features[2], urls_features[3], urls_features[4],
-            urls_features[5], urls_features[6], no_of_attachments, senderAddr, 0,
-            receiverAddr
-        ]
+        try:
+          emailParser = EmailParser(email)
+          receiverAddr = emailParser.get_receiver_email_address()
+          #if any(dominio in receiverAddr for dominio in dominios_permitidos):
+          no_of_attachments = emailParser.get_no_of_attachments()
+          emailid_features = stringUtil.process_email_address(
+              emailParser.get_sender_email_address())
+          urls_features = stringUtil.process_urls(emailParser.get_urls())
+          word_dict = stringUtil.process_text(emailParser.get_email_text())
+          senderAddr = emailParser.get_sender_email_address()
+          df.loc[len(df)] = [
+              word_dict, emailid_features[0], emailid_features[1],
+              emailid_features[2], emailid_features[3], emailid_features[4],
+              emailid_features[5], urls_features[0], urls_features[1],
+              urls_features[2], urls_features[3], urls_features[4],
+              urls_features[5], urls_features[6], no_of_attachments, senderAddr, 0,
+              receiverAddr
+          ]
+        except Exception as e:
+          numInvalidAddr += 1
       #else:
       #  numInvalidAddr += 1
       print("Numero de Correos con Direcciones Invalidas:", numInvalidAddr)
@@ -76,6 +79,7 @@ class MboxProcessor:
       data_list = json.loads(dfAnswer.to_json(orient='records'))
       result = {
           "TotalEmails": len(data_list),
+          "InvalidEmails": numInvalidAddr,
           "Predictions": data_list
       }
       final_json = json.dumps(result, indent=4)
