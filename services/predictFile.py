@@ -74,8 +74,9 @@ class MboxProcessor:
       y_Prueba1 = modelo_rf.predict(xTest)
       address = df["senderAddr"].values
       noLinks = df["noOfUrls"].values
-      noAttach = df["no_of_attachments"].values
-      dfAnswer = pd.DataFrame({'Sender Address': address, 'NoOfURL': noLinks, 'NoAttachments': noAttach , "Results": y_Prueba1})
+      noDotsUrls = df["noOfDotsInUrls"].values
+      noSpecialChar = df["noOfSpecialCharsInUrls"].values
+      dfAnswer = pd.DataFrame({'Sender Address': address, 'NoOfURL': noLinks, 'NoDotsUrls': noDotsUrls, 'NoSpecialChar': noSpecialChar , "Results": y_Prueba1})
       data_list = json.loads(dfAnswer.to_json(orient='records'))
       result = {
           "TotalEmails": len(data_list),
