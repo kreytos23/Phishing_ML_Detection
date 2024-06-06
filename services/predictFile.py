@@ -81,8 +81,7 @@ class MboxProcessor:
       result = {
           "TotalEmails": len(data_list),
           "InvalidEmails": numInvalidAddr,
-          "Predictions": data_list,
-          "Milos": "Milos es joto"
+          "Predictions": data_list
       }
       final_json = json.dumps(result, indent=4)
       os.remove(self.archivo_mbox)
