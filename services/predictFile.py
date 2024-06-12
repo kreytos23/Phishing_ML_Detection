@@ -19,7 +19,7 @@ class MboxProcessor:
 
     # Abrir el archivo CSV y leer los datos
     with open('utilsData/diccionarioPhishing.csv', 'r') as archivo:
-      lector = csv.reader(archivo)
+      lector = csv.reader(archivo, encoding = "ISO-8859-1")
       next(lector)  # Omitir la cabecera si existe
       for fila in lector:
         # Convertir los elementos necesarios a enteros o el tipo de dato adecuado
