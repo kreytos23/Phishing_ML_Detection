@@ -18,7 +18,7 @@ class MboxProcessor:
     malicious_words = []
 
     # Abrir el archivo CSV y leer los datos
-    with open('utilsData/datos.csv', 'r') as archivo:
+    with open('utilsData/diccionarioPhishing.csv', 'r') as archivo:
       lector = csv.reader(archivo)
       next(lector)  # Omitir la cabecera si existe
       for fila in lector:
@@ -76,7 +76,11 @@ class MboxProcessor:
       noLinks = df["noOfUrls"].values
       noDotsUrls = df["noOfDotsInUrls"].values
       noSpecialChar = df["noOfSpecialCharsInUrls"].values
-      dfAnswer = pd.DataFrame({'Sender Address': address, 'NoOfURL': noLinks, 'NoDotsUrls': noDotsUrls, 'NoSpecialChar': noSpecialChar , "Results": y_Prueba1})
+      noMaliciousWords = df["noOfMaliciousWords"].values
+
+      dfAnswer = pd.DataFrame({'Sender Address': address, 'NoOfURL': noLinks, 
+                               'NoDotsUrls': noDotsUrls, 'NoSpecialChar': noSpecialChar , 'noOfMaliciousWords': noMaliciousWords,
+                               "Results": y_Prueba1})
       data_list = json.loads(dfAnswer.to_json(orient='records'))
       result = {
           "TotalEmails": len(data_list),
