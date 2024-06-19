@@ -70,7 +70,7 @@ class MboxProcessor:
       xTest = df.drop(
           columns=["class_label", "senderAddr", "receiverAddr"]).values
   
-      modelo_rf = load('models/randomForestEmail_Spam3.joblib')
+      modelo_rf = load('models/randomForestEmail_BaseEmail.joblib')
       y_Prueba1 = modelo_rf.predict(xTest)
       address = df["senderAddr"].values
       noLinks = df["noOfUrls"].values
