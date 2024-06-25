@@ -81,7 +81,7 @@ class MboxProcessor:
       thresholds = defaultdict(list)
 
       # Recorre cada árbol en el modelo
-      for tree in model.estimators_:
+      for tree in modelo_rf.estimators_:
           tree_thresholds = tree.tree_.threshold
           tree_features = tree.tree_.feature
           for feature, threshold in zip(tree_features, tree_thresholds):
