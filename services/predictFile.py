@@ -132,7 +132,7 @@ class MboxProcessor:
           prediction = {
               "Sender Address": email["senderAddr"],
               "Results": int(pred),
-              "All Features": {k: email[k] for k in feature_names}  # Todas las características con sus valores
+              "All Features": {k: email[k] for k in feature_names},  # Todas las características con sus valores
               "Phishing Pure Leaves": phishing_count,
               "Non-Phishing Pure Leaves": non_phishing_count
           }  
