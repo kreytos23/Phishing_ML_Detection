@@ -120,7 +120,7 @@ class MboxProcessor:
       average_thresholds = thresholds_df.mean()
       print(average_thresholds)      
       
-      phishing_leaf_counts, non_phishing_leaf_counts = count_pure_leaves(model, x_test)
+      phishing_leaf_counts, non_phishing_leaf_counts = count_pure_leaves(modelo_rf, x_test)
 
       # Formar la respuesta JSON
       response = {
