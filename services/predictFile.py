@@ -67,11 +67,62 @@ class MboxProcessor:
       df['noOfMaliciousWords'] = df['text'].apply(lambda x: len(
           set(x.keys()).intersection(set(dict(malicious_words).keys()))))
       df = df.drop(columns=['text'])
-      xTest = df.drop(
-          columns=["class_label", "senderAddr", "receiverAddr"]).values
-  
+      
       modelo_rf = load('models/randomForestEmail_Spam350_ExtraPhishing_2.joblib')
-      y_Prueba1 = modelo_rf.predict(xTest)
+      
+      x_test = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).values
+      y_pred = modelo_rf.predict(x_test)
+      
+      # Asume que df es tu DataFrame de entrenamiento original
+      feature_names = df.drop(columns=["class_label", "senderAddr", , "receiverAddr"]).columns.tolist()
+
+      # Diccionario para almacenar los umbrales de cada característica
+      thresholds = defaultdict(list)
+
+      # Recorre cada árbol en el modelo
+      for tree in model.estimators_:
+          tree_thresholds = tree.tree_.threshold
+          tree_features = tree.tree_.feature
+          for feature, threshold in zip(tree_features, tree_thresholds):
+              if feature != -2:  # -2 indica que no es un nodo de división
+                  feature_name = feature_names[feature]
+                  thresholds[feature_name].append(threshold)
+
+      # Convierte el diccionario a un DataFrame para análisis más sencillo
+      thresholds_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in thresholds.items()]))
+
+      # Imprime los umbrales promedio de cada característica
+      average_thresholds = thresholds_df.mean()
+      print(average_thresholds)      
+
+      # Formar la respuesta JSON
+      response = {
+          "TotalEmails": len(y_pred),
+          "Predictions": []
+      }      
+      
+      for i, (email, pred) in enumerate(zip(df.to_dict(orient="records"), y_pred)):
+          prediction = {
+              "Sender Address": email["Sender Address"],
+              "Results": int(pred)
+          }  
+        # Obtener las 5 características más notables
+        notable_features = {}
+        for feature in feature_names:
+            feature_value = email[feature]
+            threshold = average_thresholds[feature]
+            if pred == 1 and feature_value >= threshold:  # Phishing
+                notable_features[feature] = feature_value
+            elif pred == 0 and feature_value < threshold:  # No Phishing
+                notable_features[feature] = feature_value
+        
+        # Ordenar y tomar las 5 características más notables
+        sorted_notable_features = sorted(notable_features.items(), key=lambda x: abs(x[1] - average_thresholds[x[0]]), reverse=True)[:5]
+        prediction["Notable Features"] = {k: v for k, v in sorted_notable_features}
+        
+        response["Predictions"].append(prediction)
+        
+      """
       address = df["senderAddr"].values
       noLinks = df["noOfUrls"].values
       noDotsUrls = df["noOfDotsInUrls"].values
@@ -88,7 +139,9 @@ class MboxProcessor:
           "Predictions": data_list
       }
       final_json = json.dumps(result, indent=4)
-      os.remove(self.archivo_mbox)
+
+    """
+    os.remove(self.archivo_mbox)
     except Exception as e:
       raise e
-    return final_json
+    return jsonify(response)
