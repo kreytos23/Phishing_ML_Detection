@@ -1,4 +1,4 @@
-from flask import Flask, request, Response
+from flask import Flask, request, Response, jsonify
 from services.predictFile import MboxProcessor
 from flask_cors import cross_origin
 import os
@@ -39,10 +39,12 @@ def upload_mbox():
       response = Response(response='Error processing file: ' + str(e),
                           status=400)
       return response
+    """
     response = Response(response=results,
                         status=200,
                         mimetype='application/json')
-    return response
+    """
+    return results
   else:
     response = Response(response="Unsupported file type",
                         status=400)

@@ -107,7 +107,6 @@ class MboxProcessor:
               "Sender Address": email["senderAddr"],
               "Results": int(pred)
           }  
-          # Obtener las 5 características más notables
           notable_features = {}
           for feature in feature_names:
               feature_value = email[feature]
@@ -116,13 +115,13 @@ class MboxProcessor:
                   notable_features[feature] = feature_value
               elif pred == 0 and feature_value < threshold:  # No Phishing
                   notable_features[feature] = feature_value
+        
           
-          # Ordenar y tomar las 5 características más notables
           sorted_notable_features = sorted(notable_features.items(), key=lambda x: abs(x[1] - average_thresholds[x[0]]), reverse=True)[:5]
           prediction["Notable Features"] = {k: v for k, v in sorted_notable_features}
           
           response["Predictions"].append(prediction)
-        
+    
       """
       address = df["senderAddr"].values
       noLinks = df["noOfUrls"].values
@@ -146,4 +145,4 @@ class MboxProcessor:
     except Exception as e:
       raise e
     os.remove(self.archivo_mbox)
-    return jsonify(response)
+    return response
