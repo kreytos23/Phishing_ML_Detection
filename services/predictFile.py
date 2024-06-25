@@ -104,7 +104,7 @@ class MboxProcessor:
       
       for i, (email, pred) in enumerate(zip(df.to_dict(orient="records"), y_pred)):
           prediction = {
-              "Sender Address": email["Sender Address"],
+              "Sender Address": email["senderAddr"],
               "Results": int(pred)
           }  
           # Obtener las 5 características más notables
