@@ -105,7 +105,8 @@ class MboxProcessor:
       for i, (email, pred) in enumerate(zip(df.to_dict(orient="records"), y_pred)):
           prediction = {
               "Sender Address": email["senderAddr"],
-              "Results": int(pred)
+              "Results": int(pred),
+              "All Features": {k: email[k] for k in feature_names}  # Todas las características con sus valores
           }  
           notable_features = {}
           for feature in feature_names:
