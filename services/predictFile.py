@@ -74,7 +74,7 @@ class MboxProcessor:
       y_pred = modelo_rf.predict(x_test)
       
       # Asume que df es tu DataFrame de entrenamiento original
-      feature_names = df.drop(columns=["class_label", "senderAddr", , "receiverAddr"]).columns.tolist()
+      feature_names = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).columns.tolist()
 
       # Diccionario para almacenar los umbrales de cada característica
       thresholds = defaultdict(list)
@@ -106,21 +106,21 @@ class MboxProcessor:
               "Sender Address": email["Sender Address"],
               "Results": int(pred)
           }  
-        # Obtener las 5 características más notables
-        notable_features = {}
-        for feature in feature_names:
-            feature_value = email[feature]
-            threshold = average_thresholds[feature]
-            if pred == 1 and feature_value >= threshold:  # Phishing
-                notable_features[feature] = feature_value
-            elif pred == 0 and feature_value < threshold:  # No Phishing
-                notable_features[feature] = feature_value
-        
-        # Ordenar y tomar las 5 características más notables
-        sorted_notable_features = sorted(notable_features.items(), key=lambda x: abs(x[1] - average_thresholds[x[0]]), reverse=True)[:5]
-        prediction["Notable Features"] = {k: v for k, v in sorted_notable_features}
-        
-        response["Predictions"].append(prediction)
+          # Obtener las 5 características más notables
+          notable_features = {}
+          for feature in feature_names:
+              feature_value = email[feature]
+              threshold = average_thresholds[feature]
+              if pred == 1 and feature_value >= threshold:  # Phishing
+                  notable_features[feature] = feature_value
+              elif pred == 0 and feature_value < threshold:  # No Phishing
+                  notable_features[feature] = feature_value
+          
+          # Ordenar y tomar las 5 características más notables
+          sorted_notable_features = sorted(notable_features.items(), key=lambda x: abs(x[1] - average_thresholds[x[0]]), reverse=True)[:5]
+          prediction["Notable Features"] = {k: v for k, v in sorted_notable_features}
+          
+          response["Predictions"].append(prediction)
         
       """
       address = df["senderAddr"].values
@@ -141,7 +141,8 @@ class MboxProcessor:
       final_json = json.dumps(result, indent=4)
 
     """
-    os.remove(self.archivo_mbox)
+    
     except Exception as e:
       raise e
+    os.remove(self.archivo_mbox)
     return jsonify(response)
