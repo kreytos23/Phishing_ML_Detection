@@ -15,7 +15,7 @@ class MboxProcessor:
     self.archivo_mbox = archivo_mbox
 
   # Función para contar hojas puras
-  def count_pure_leaves(modelo, x_test):
+  def count_pure_leaves(self, modelo, x_test):
     phishing_leaf_counts = []
     non_phishing_leaf_counts = []
     
