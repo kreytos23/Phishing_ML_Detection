@@ -6,6 +6,7 @@ import nltk
 import pandas as pd
 import os
 import json
+from collections import defaultdict
 
 
 class MboxProcessor:
