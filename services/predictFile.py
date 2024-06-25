@@ -14,6 +14,30 @@ class MboxProcessor:
   def __init__(self, archivo_mbox):
     self.archivo_mbox = archivo_mbox
 
+  # Función para contar hojas puras
+  def count_pure_leaves(model, x_test):
+    phishing_leaf_counts = []
+    non_phishing_leaf_counts = []
+    
+    for x in x_test:
+        phishing_count = 0
+        non_phishing_count = 0
+        
+        for tree in model.estimators_:
+            leaf_index = tree.apply([x])[0]
+            leaf_value = tree.tree_.value[leaf_index]
+            if len(set(leaf_value[0])) == 1:  # Es una hoja pura
+                if leaf_value[0][1] > 0:  # Clase phishing
+                    phishing_count += 1
+                else:  # Clase no phishing
+                    non_phishing_count += 1
+        
+        phishing_leaf_counts.append(phishing_count)
+        non_phishing_leaf_counts.append(non_phishing_count)
+    
+    return phishing_leaf_counts, non_phishing_leaf_counts
+  
+
   def predict_mail(self):
     # Procesar el archivo .mbox
     malicious_words = []
@@ -95,6 +119,8 @@ class MboxProcessor:
       # Imprime los umbrales promedio de cada característica
       average_thresholds = thresholds_df.mean()
       print(average_thresholds)      
+      
+      phishing_leaf_counts, non_phishing_leaf_counts = count_pure_leaves(model, x_test)
 
       # Formar la respuesta JSON
       response = {
@@ -107,6 +133,8 @@ class MboxProcessor:
               "Sender Address": email["senderAddr"],
               "Results": int(pred),
               "All Features": {k: email[k] for k in feature_names}  # Todas las características con sus valores
+              "Phishing Pure Leaves": phishing_count,
+              "Non-Phishing Pure Leaves": non_phishing_count
           }  
           notable_features = {}
           for feature in feature_names:
