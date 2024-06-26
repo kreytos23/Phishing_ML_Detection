@@ -94,7 +94,7 @@ class MboxProcessor:
           set(x.keys()).intersection(set(dict(malicious_words).keys()))))
       df = df.drop(columns=['text'])
       
-      modelo_rf = load('models/randomForestEmail_BaseEmail.joblib')
+      modelo_rf = load('models/randomForestEmail_Spam350_ExtraPhishing_2.joblib')
       
       x_test = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).values
       y_pred = modelo_rf.predict(x_test)
