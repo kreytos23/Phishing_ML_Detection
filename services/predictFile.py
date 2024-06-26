@@ -126,16 +126,16 @@ class MboxProcessor:
       # Formar la respuesta JSON
       response = {
           "TotalEmails": len(y_pred),
-          "Predictions": []
+          "Predictions": [],
+          "Phishing Pure Leaves": phishing_leaf_counts,
+          "Non-Phishing Pure Leaves": non_phishing_leaf_counts
       }      
       
       for i, (email, pred) in enumerate(zip(df.to_dict(orient="records"), y_pred)):
           prediction = {
               "Sender Address": email["senderAddr"],
               "Results": int(pred),
-              "All Features": {k: email[k] for k in feature_names},  # Todas las características con sus valores
-              "Phishing Pure Leaves": phishing_leaf_counts,
-              "Non-Phishing Pure Leaves": non_phishing_leaf_counts
+              "All Features": {k: email[k] for k in feature_names} # Todas las características con sus valores
           }  
           notable_features = {}
           for feature in feature_names:
