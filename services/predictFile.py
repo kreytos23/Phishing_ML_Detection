@@ -133,8 +133,8 @@ class MboxProcessor:
               "Sender Address": email["senderAddr"],
               "Results": int(pred),
               "All Features": {k: email[k] for k in feature_names},  # Todas las características con sus valores
-              "Phishing Pure Leaves": phishing_count,
-              "Non-Phishing Pure Leaves": non_phishing_count
+              "Phishing Pure Leaves": phishing_leaf_counts,
+              "Non-Phishing Pure Leaves": non_phishing_leaf_counts
           }  
           notable_features = {}
           for feature in feature_names:
