@@ -23,7 +23,7 @@ class MboxProcessor:
       phishing_count = 0
       non_phishing_count = 0
 
-      for tree in self.model.estimators_:
+      for tree in modelo.estimators_:
         leaf_index = tree.apply([x])[0]
         leaf_value = tree.tree_.value[leaf_index]
 
