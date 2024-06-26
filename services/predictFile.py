@@ -99,7 +99,6 @@ class MboxProcessor:
       x_test = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).values
       y_pred = modelo_rf.predict(x_test)
       
-      # Asume que df es tu DataFrame de entrenamiento original
       feature_names = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).columns.tolist()
 
       # Diccionario para almacenar los umbrales de cada característica
@@ -118,8 +117,8 @@ class MboxProcessor:
       thresholds_df = pd.DataFrame(dict([(k, pd.Series(v)) for k, v in thresholds.items()]))
 
       # Imprime los umbrales promedio de cada característica
-      average_thresholds = thresholds_df.mean()
-      print(average_thresholds)      
+      average_thresholds = thresholds_df.mean().to_dict()
+      #print(average_thresholds)      
       
       phishing_leaf_counts, non_phishing_leaf_counts = self.count_pure_leaves(modelo_rf, x_test)
 
