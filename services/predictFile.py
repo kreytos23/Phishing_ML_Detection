@@ -94,13 +94,13 @@ class MboxProcessor:
           set(x.keys()).intersection(set(dict(malicious_words).keys()))))
       df = df.drop(columns=['text'])
       
-      modelo_rf = load('models/randomForestEmail_Spam350_ExtraPhishing_2.joblib')
+      modelo_rf = load('models/randomForestEmail_Spam350_ExtraPhishing_200_Refined_smote.joblib')
       
       x_test = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).values
       y_pred = modelo_rf.predict(x_test)
       
       feature_names = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).columns.tolist()
-
+      """
       # Diccionario para almacenar los umbrales de cada característica
       thresholds = defaultdict(list)
 
@@ -161,7 +161,7 @@ class MboxProcessor:
 
       dfAnswer = pd.DataFrame({'Sender Address': address, 'NoOfURL': noLinks, 
                                'NoDotsUrls': noDotsUrls, 'NoSpecialChar': noSpecialChar , 'noOfMaliciousWords': noMaliciousWords,
-                               "Results": y_Prueba1})
+                               "Results": y_pred})
       data_list = json.loads(dfAnswer.to_json(orient='records'))
       result = {
           "TotalEmails": len(data_list),
@@ -169,10 +169,8 @@ class MboxProcessor:
           "Predictions": data_list
       }
       final_json = json.dumps(result, indent=4)
-
-    """
     
     except Exception as e:
       raise e
     os.remove(self.archivo_mbox)
-    return response
+    return jsonify(final_json)

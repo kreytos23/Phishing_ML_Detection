@@ -39,12 +39,12 @@ def upload_mbox():
       response = Response(response='Error processing file: ' + str(e),
                           status=400)
       return response
-    """
+    
     response = Response(response=results,
                         status=200,
                         mimetype='application/json')
-    """
-    return results
+    
+    return response
   else:
     response = Response(response="Unsupported file type",
                         status=400)
