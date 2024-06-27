@@ -173,4 +173,4 @@ class MboxProcessor:
     except Exception as e:
       raise e
     os.remove(self.archivo_mbox)
-    return jsonify(final_json)
+    return final_json
