@@ -125,6 +125,7 @@ class MboxProcessor:
       # Formar la respuesta JSON
       response = {
           "TotalEmails": len(y_pred),
+          "InvalidEmails": numInvalidAddr,
           "FeatureThresholds": average_thresholds, 
           "Predictions": []
       }      
