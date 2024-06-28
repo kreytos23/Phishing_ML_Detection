@@ -137,6 +137,7 @@ class MboxProcessor:
               "Results": int(pred),
               "AllFeatures": {k: email[k] for k in feature_names} # Todas las características con sus valores
           }  
+          """
           notable_features = {}
           for feature in feature_names:
               feature_value = email[feature]
@@ -151,6 +152,7 @@ class MboxProcessor:
           prediction["Notable Features"] = {k: v for k, v in sorted_notable_features}
           
           response["Predictions"].append(prediction)
+          """
     
       """
       address = df["senderAddr"].values
