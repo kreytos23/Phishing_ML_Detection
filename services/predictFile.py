@@ -99,8 +99,8 @@ class MboxProcessor:
       x_test = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).values
       y_pred = modelo_rf.predict(x_test)
       
-      #feature_names = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).columns.tolist()
-      """
+      feature_names = df.drop(columns=["class_label", "senderAddr", "receiverAddr"]).columns.tolist()
+      
       # Diccionario para almacenar los umbrales de cada característica
       thresholds = defaultdict(list)
 
@@ -169,8 +169,8 @@ class MboxProcessor:
           "Predictions": data_list
       }
       final_json = json.dumps(result, indent=4)
-    
+    """
     except Exception as e:
       raise e
     os.remove(self.archivo_mbox)
-    return final_json
+    return response
